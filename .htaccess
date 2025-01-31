@@ -59,6 +59,28 @@ Order deny,allow
 Deny from all
 </FilesMatch>
 
+# BEGIN Block Spam Bots
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_USER_AGENT} "BadBot1|BadBot2|SpamBot" [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# Block access to wp-login.php from known IPs (adjust the IP)
+<Files wp-login.php>
+    Order Deny,Allow
+    Deny from all
+    Allow from xx.xx.xx.xx  # Your IP Address here
+</Files>
+
+# Block PHP execution in the uploads folder (common spam bot vector)
+<Directory "/wp-content/uploads">
+    php_flag engine off
+</Directory>
+
+# END Block Spam Bots
+
 # BEGIN Performance Optimization
 
 # Enable browser caching for static files (e.g., images, JS, CSS)
