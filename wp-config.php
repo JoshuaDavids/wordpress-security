@@ -18,14 +18,26 @@ define('NONCE_SALT',       'your_unique_phrase');
 // ** Database table prefix ** //
 $table_prefix  = 'pw_';
 
-// ** Disable file editing in the admin dashboard ** //
-define('DISALLOW_FILE_EDIT', true);
-
 // ** Move wp-config.php up one directory (optional) ** //
 // If you move this file up a directory, you don't need to specify anything here
 
-// ** Disable XML-RPC (optional, if you're not using it) ** //
-// define('XMLRPC_REQUEST', false);
+// ** Disable file editing in the admin dashboard for security ** //
+define('DISALLOW_FILE_EDIT', true);
+
+// ** Disable the WordPress default RSS feeds (optional) ** //
+define('DISABLE_WP_CRON', true);
+
+// ** Turn off WordPress version info ** //
+remove_action('wp_head', 'wp_generator');
+
+// ** Set WP to use object cache (optional) ** //
+define('WP_CACHE', true);
+
+// ** Performance: Set higher PHP memory limit (optional) ** //
+define('WP_MEMORY_LIMIT', '256M');
+
+// ** Disable XML-RPC if not used ** //
+define('XMLRPC_REQUEST', false);
 
 // ** Debugging (optional, for development only) ** //
 define('WP_DEBUG', false); // Change to true if you want to debug errors
