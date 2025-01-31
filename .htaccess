@@ -1,0 +1,60 @@
+# BEGIN WordPress
+
+# Protect wp-config.php
+
+<Files wp-config.php>
+    Order deny,allow
+    Deny from all
+</Files>
+
+# Protect .htaccess
+
+<Files .htaccess>
+Order deny,allow
+Deny from all
+</Files>
+
+# Disable directory browsing
+
+Options -Indexes
+
+# Block PHP execution in the uploads directory
+
+<Directory "/wp-content/uploads">
+php_flag engine off
+</Directory>
+
+# Restrict access to wp-login.php to a specific IP (optional)
+
+<Files wp-login.php>
+    Order Deny,Allow
+    Deny from all
+    Allow from xx.xx.xx.xx  # Replace with your own IP address
+</Files>
+
+# Disable server signature (optional)
+
+ServerSignature Off
+
+# Set up some security headers
+
+Header set X-Content-Type-Options "nosniff"
+Header set X-XSS-Protection "1; mode=block"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# END WordPress
+
+# Block all access to hidden files
+
+<FilesMatch "^.\*\.([Hh][Tt]|[Dd][Ss]\_[Ss][Hh])">
+Order deny,allow
+Deny from all
+</FilesMatch>
+
+# Block access to .git and .gitignore files
+
+<FilesMatch "^.\*\.(git|gitignore)$">
+Order deny,allow
+Deny from all
+</FilesMatch>
