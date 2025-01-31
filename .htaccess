@@ -109,3 +109,39 @@ Deny from all
 
 # END Performance Optimization
 
+# BEGIN Security Measures
+
+# Deny access to sensitive files (e.g., wp-config.php, .htaccess)
+<Files wp-config.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files .htaccess>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Disable directory browsing
+Options -Indexes
+
+# Prevent access to hidden files (e.g., .git, .env)
+<FilesMatch "^.*\.([Hh][Tt]|[Dd][Ss]_[Ss][Hh])">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Set security headers to prevent clickjacking, XSS, etc.
+Header set X-Content-Type-Options "nosniff"
+Header set X-XSS-Protection "1; mode=block"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# Protect against SQL Injection, XSS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{QUERY_STRING} union.*select.*\w.*\w [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# END Security Measures n
